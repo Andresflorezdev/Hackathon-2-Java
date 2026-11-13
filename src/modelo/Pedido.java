@@ -33,11 +33,16 @@ public class Pedido {
     }
 
     public void setCliente(Cliente cliente) {
-
+        if (cliente == null) {
+            throw new IllegalArgumentException("El cliente no puede ser nulo");
+        }
         this.cliente = cliente;
     }
 
     public void setDescripcion(String descripcion) {
+        if (descripcion == null || descripcion.trim().isEmpty()) {
+            throw new IllegalArgumentException("la descripcion no puede estar vacia");
+        }
         this.descripcion = descripcion;
     }
 
@@ -46,6 +51,9 @@ public class Pedido {
     }
 
     public void setKm(double km) {
+        if (km <= 0) {
+            throw new IllegalArgumentException("los kilometros deben ser mayores a cero");
+        }
         this.km = km;
     }
 }
