@@ -114,17 +114,37 @@ public class DomiServicio {
 
     }
 
-    public void cambiarDisponibilidad (){
-
+    public void cambiarDisponibilidad (String codigo){
+        for (Repartidor r : repartidores) {
+            if (r.getCodigo().equals(codigo)) {
+                r.setDisponible(!r.isDisponible());
+                return;
+            }
+        }
+        throw new IllegalArgumentException("El repartidor no existe");
     }
 
-    public void entregar (){
-
+    public void entregar (int numeroPedido, int estrellas){
+        Pedido p = buscarPedido(numeroPedido);
+        if (p == null) {
+            throw new IllegalArgumentException("El pedido no existe");
+        }
+        if (!p.estaEnCamino()) {
+            throw new IllegalArgumentException("Solo se puede entregar un pedido EN_CAMINO");
+        }
+        p.getRepartidorAsignado().calificar(estrellas);
+        p.entregrar();
     }
 
-    public void Cancelar (){
-
-    }
+    public void Cancelar (int numeroPedido){
+        Pedido p = buscarPedido(numeroPedido);
+        if (p == null) {
+            throw new IllegalArgumentException("El pedido no existe");
+        }
+        if (!p.estaEnCamino()) {
+            throw new IllegalArgumentException("Solo se puede cancelar un pedido EN_CAMINO");
+        }
+        p.cancelar();
 
     public void listarPedidos (){
         if (pedidos.isEmpty()) {
