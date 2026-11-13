@@ -1,5 +1,7 @@
 package modelo;
 
+import java.util.Set;
+
 public class Pedido {
 
     private static int consecutivo = 0;
@@ -14,22 +16,26 @@ public class Pedido {
     private double tiempo;
     private String estado;
 
+    private static final Set<String> ESTADOS_VALIDOS = Set.of(
+            "EN_CAMINO",
+            "ENTREGADO",
+            "CANCELADO"
+    );
+
     public Pedido(Cliente cliente, String descripcion, boolean grande, double km,
                   Repartidor repartidorAsignado, double costo, double tiempo) {
-
-        consecutivo++;
-        this.numero = consecutivo;
 
         setCliente(cliente);
         setDescripcion(descripcion);
         setGrande(grande);
         setKm(km);
+        setRepartidorAsignado(repartidorAsignado);
+        setCosto(costo);
+        setTiempo(tiempo);
+        setEstado("EN_CAMINO");
 
-        this.repartidorAsignado = repartidorAsignado;
-        this.costo = costo;
-        this.tiempo = tiempo;
-
-        this.estado = "EN_CAMINO";
+        consecutivo++;
+        this.numero = consecutivo;
     }
 
     public void setCliente(Cliente cliente) {
@@ -43,7 +49,7 @@ public class Pedido {
         if (descripcion == null || descripcion.trim().isEmpty()) {
             throw new IllegalArgumentException("la descripcion no puede estar vacia");
         }
-        this.descripcion = descripcion;
+        this.descripcion = descripcion.trim();
     }
 
     public void setGrande(boolean grande) {
@@ -55,5 +61,33 @@ public class Pedido {
             throw new IllegalArgumentException("los kilometros deben ser mayores a cero");
         }
         this.km = km;
+    }
+
+    public void setRepartidorAsignado(Repartidor repartidorAsignado) {
+        if (repartidorAsignado == null) {
+            throw new IllegalArgumentException("El repartidor no puede ser nulo");
+        }
+        this.repartidorAsignado = repartidorAsignado;
+    }
+
+    public void setCosto(double costo) {
+        if (costo <= 0) {
+            throw new IllegalArgumentException("El costo debe ser mayor a cero");
+        }
+        this.costo = costo;
+    }
+
+    public void setTiempo(double tiempo) {
+        if (tiempo <= 0) {
+            throw new IllegalArgumentException("los tiempos deben ser mayores a cero");
+        }
+        this.tiempo = tiempo;
+    }
+
+    public void setEstado(String estado) {
+        if (!ESTADOS_VALIDOS.contains(estado)) {
+            throw new IllegalArgumentException("Estado no valido: " + estado);
+        }
+        this.estado = estado;
     }
 }
