@@ -127,6 +127,13 @@ public class DomiServicio {
     }
 
     public void listarPedidos (){
+        if (pedidos.isEmpty()) {
+            System.out.println("No hay pedidos registrados");
+            return;
+        }
+        for (Pedido p : pedidos) {
+            System.out.println(p);
+        }
 
     }
 
