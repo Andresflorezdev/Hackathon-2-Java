@@ -12,3 +12,7 @@ Aplicación en Java para la gestión de un servicio de domicilios. El proyecto i
 ## Tecnologías
 
 - Java
+
+## Video de presentación
+
+Enlace: [enlace del video](https://drive.google.com/drive/folders/1hg65Ei7B7a4oi-UFMltmDwgiCUKbDu2X?usp=sharing)
