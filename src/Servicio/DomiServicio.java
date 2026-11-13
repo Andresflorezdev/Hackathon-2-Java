@@ -11,6 +11,8 @@ import java.util.HashSet;
 
 public class DomiServicio {
 
+    private boolean modoLluvia= false;
+
     Map<String, Cliente> clientes = new HashMap<>();
     Set<String> barriosCobertura = new HashSet<>();
     Map<String, Double> distanciaBarrios = new HashMap<>();
@@ -104,14 +106,69 @@ public class DomiServicio {
         return null;
     }
 
-    // hacen falta estos metodos 
 
-    public void registrarRepartidor (){
+    public void alternarModoLluvia() {
 
+        this.modoLluvia = !this.modoLluvia;
     }
 
-    public void listarRepartidores (){
+    public boolean ModoLluviaActivo() {
 
+        return modoLluvia;
+    }
+
+    public Repartidor asignarRepartidor(){
+        for (Repartidor r : repartidores){
+
+            if (r.isDisponible()) {
+                if (modoLluvia && "Bici".equalsIgnoreCase(r.getTipo())){
+                    continue;
+                }
+                return r;
+            }
+        }
+        return null;
+    }
+
+    public boolean registrarRepartidor(Repartidor nuevoRepartidor) {
+        if (nuevoRepartidor == null) {
+            throw new IllegalArgumentException("El repartidor no puede ser nulo.");
+        }
+        for (Repartidor r : repartidores) {
+            if (r.getCodigo().equals(nuevoRepartidor.getCodigo())) {
+                System.out.println("Ya existe un repartidor con ese código.");
+                return false;
+            }
+        }
+        repartidores.add(nuevoRepartidor);
+        System.out.println("¡Repartidor registrado con éxito!");
+        return true;
+    }
+
+
+    public void listarRepartidores() {
+        if (repartidores.isEmpty()) {
+            System.out.println("No hay repartidores registrados.");
+            return;
+        }
+        System.out.println("Lista de Repartidores");
+        for (Repartidor r : repartidores) {
+            String estadoDisponibilidad = r.isDisponible() ? "Disponible" : "Ocupado";
+
+            System.out.println("Código: " + r.getCodigo() +
+                    " - Nombre: " + r.getNombre() +
+                    " - Tipo: " + r.getTipo() +
+                    " - Estado: " + estadoDisponibilidad);
+        }
+    }
+
+    public Repartidor buscarRepartidor(String codigo) {
+        for (Repartidor r : repartidores) {
+            if (r.getCodigo().equals(codigo)) {
+                return r;
+            }
+        }
+        return null;
     }
 
     public void cambiarDisponibilidad (String codigo){
