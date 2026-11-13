@@ -1,7 +1,5 @@
 package Servicio;
-
 import modelo.*;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,7 +45,8 @@ public class DomiServicio {
 
     }
 
-    public Cliente buscarCliente (String cedula){ return clientes.get(cedula);
+    public Cliente buscarCliente (String cedula){
+        return clientes.get(cedula);
     }
 
     public void registrarCliente (Cliente c){
