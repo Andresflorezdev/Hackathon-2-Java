@@ -90,4 +90,40 @@ public class Pedido {
         }
         this.estado = estado;
     }
+
+    public int getNumero() {
+        return numero;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public boolean isGrande() {
+        return grande;
+    }
+
+    public double getKm() {
+        return km;
+    }
+
+    public Repartidor getRepartidorAsignado() {
+        return repartidorAsignado;
+    }
+
+    public double getCosto() {
+        return costo;
+    }
+
+    public double getTiempo() {
+        return tiempo;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
 }
