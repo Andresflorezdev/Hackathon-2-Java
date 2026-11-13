@@ -136,7 +136,7 @@ public class DomiServicio {
         p.entregrar();
     }
 
-    public void Cancelar (int numeroPedido){
+    public void Cancelar (int numeroPedido) {
         Pedido p = buscarPedido(numeroPedido);
         if (p == null) {
             throw new IllegalArgumentException("El pedido no existe");
@@ -145,18 +145,17 @@ public class DomiServicio {
             throw new IllegalArgumentException("Solo se puede cancelar un pedido EN_CAMINO");
         }
         p.cancelar();
-
-    public void listarPedidos (){
-
     }
 
+    public void listarPedidos(){
+        if (pedidos.isEmpty()) {
+            System.out.println("No hay pedidos registrados");
+            return;
+        }
+        for (Pedido p : pedidos) {
+            System.out.println(p);
+        }
 
-
-
-
-
-
-
-
+    }
 
 }
