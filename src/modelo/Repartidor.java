@@ -16,7 +16,7 @@ public abstract class Repartidor implements Calificable {
 
     public abstract boolean LopuedeLlevar(double km, boolean pedidoGrande, boolean lloviendo);
 
-    public Repartidor(String codigo, String nombre, boolean disponible) {
+    public Repartidor(String codigo, String nombre) {
         setCodigo(codigo);
         setNombre(nombre);
         this.disponible = true;
@@ -56,9 +56,10 @@ public abstract class Repartidor implements Calificable {
     @Override
     public void calificar(int estrellas) {
 
-        if (estrellas > 5 || estrellas < 1) {
-            System.out.println("Las estrellas debes estar en el rango de 1 a 5");
+        if (estrellas < 1 || estrellas > 5) {
+            throw new IllegalArgumentException("La calificación debe estar dentro del rango de 1 a 5 estrellas");
         }
+
         sumaCalifi += estrellas;
         cantidadCalifi++;
     }
@@ -68,7 +69,7 @@ public abstract class Repartidor implements Calificable {
         if (cantidadCalifi == 0) {
             return 0;
         }
-        return sumaCalifi / cantidadCalifi;
+        return (double) sumaCalifi / cantidadCalifi;
     }
 
     public int getCantidadCalificaciones() {
