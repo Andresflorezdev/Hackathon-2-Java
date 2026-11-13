@@ -22,6 +22,7 @@ public class Pedido {
             "CANCELADO"
     );
 
+    // constructor
     public Pedido(Cliente cliente, String descripcion, boolean grande, double km,
                   Repartidor repartidorAsignado, double costo, double tiempo) {
 
@@ -34,10 +35,31 @@ public class Pedido {
         setTiempo(tiempo);
         setEstado("EN_CAMINO");
 
+        // cuando el pedido queda en EN_CAMINO, el repartidor queda ocupado y se pasa a false
+        this.repartidorAsignado.setDisponible(false);
+
         consecutivo++;
         this.numero = consecutivo;
     }
 
+    // metodos de transicion de estado
+    public void entregrar() {
+        setEstado("ENTREGADO");
+    }
+
+    public void cancelar() {
+        setEstado("CANCELADO");
+    }
+
+    public boolean estaEnCamino() {
+        return "EN_CAMINO".equals(this.estado);
+    }
+
+    public boolean estaEntregado() {
+        return "ENTREGADO".equals(this.estado);
+    }
+
+    // setter con validacion
     public void setCliente(Cliente cliente) {
         if (cliente == null) {
             throw new IllegalArgumentException("El cliente no puede ser nulo");
@@ -85,12 +107,20 @@ public class Pedido {
     }
 
     public void setEstado(String estado) {
-        if (!ESTADOS_VALIDOS.contains(estado)) {
+        if (estado == null || !ESTADOS_VALIDOS.contains(estado)) {
             throw new IllegalArgumentException("Estado no valido: " + estado);
         }
+        if (this.estado != null && !this.estado.equals("EN_CAMINO")) {
+            throw new IllegalArgumentException("El pedido ya tiene un estado final");
+        }
         this.estado = estado;
+
+        if (estado.equals("ENTREGADO") || estado.equals("CANCELADO")) {
+            this.repartidorAsignado.setDisponible(true);
+        }
     }
 
+    // Getter
     public int getNumero() {
         return numero;
     }
@@ -125,5 +155,15 @@ public class Pedido {
 
     public String getEstado() {
         return estado;
+    }
+
+    @Override
+    public String toString() {
+        return "Pedido #" + numero +
+                " - Cliente: " + cliente.getNombre() +
+                " - Repartidor: " + repartidorAsignado.getNombre() + " (" + repartidorAsignado.getTipo() + ")" +
+                " - Costo: $" + costo +
+                " - Tiempo: " + tiempo + " min" +
+                " - Estado: " + estado;
     }
 }
